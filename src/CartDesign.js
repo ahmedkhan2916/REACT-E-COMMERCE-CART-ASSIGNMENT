@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import phone from "../src/images/photo2.png"
 
 function CartDesign() {
@@ -12,11 +12,30 @@ function CartDesign() {
     { id: 6, name: "Sapiens", category: "Books", price: 20 },
   ];
 
+ 
+
+
+
   //states 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [addedItem, setAddedItem] = useState({});
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+
+
+//setting value 0 when last item will remove
+   useEffect(()=>{
+
+
+  if(cart.length===0)
+    {
+        setTotal(0);
+    }
+
+
+
+  },[total])
+
 
   //filtering product from selectcategory 
   const filteredProducts =
@@ -48,9 +67,19 @@ function CartDesign() {
   };
 
   //remove single item from cart 
-  const handleRemoveItem = (itemID,price) => {
-    setTotal((prev)=>prev-price)
+  const handleRemoveItem = (itemID,price,qty) => {
+
+  
+  const totalMinusvalue=qty*price;
+  const totalVal=total-totalMinusvalue
+
+  
+    setTotal(totalVal)
+
+   
     setCart((prevCart) => prevCart.filter((item) => item.id !== itemID));
+
+  
   };
 
   //show according to category which user want to see. 
@@ -164,7 +193,7 @@ function CartDesign() {
                             ${item.price * item.quantity}
                           </div>
                           <button
-                            onClick={() => handleRemoveItem(item.id,item.price)}
+                            onClick={() => handleRemoveItem(item.id,item.price,item.quantity)}
                             className="text-sm text-red-500 mt-2 hover:underline"
                           >
                             Remove

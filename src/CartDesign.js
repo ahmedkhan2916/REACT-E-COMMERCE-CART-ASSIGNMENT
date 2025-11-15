@@ -48,7 +48,8 @@ function CartDesign() {
   };
 
   //remove single item from cart 
-  const handleRemoveItem = (itemID) => {
+  const handleRemoveItem = (itemID,price) => {
+    setTotal((prev)=>prev-price)
     setCart((prevCart) => prevCart.filter((item) => item.id !== itemID));
   };
 
@@ -163,7 +164,7 @@ function CartDesign() {
                             ${item.price * item.quantity}
                           </div>
                           <button
-                            onClick={() => handleRemoveItem(item.id)}
+                            onClick={() => handleRemoveItem(item.id,item.price)}
                             className="text-sm text-red-500 mt-2 hover:underline"
                           >
                             Remove
